@@ -1,6 +1,7 @@
 import React from 'react';
 import reactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner';
 
  class App extends React.Component{
      //This thing same as constructor
@@ -13,14 +14,23 @@ import SeasonDisplay from './SeasonDisplay';
         )
      }
 
+     //create a helper method
+     renderContent() {
+        if(this.state.error && !this.state.lat){
+            return <div>{this.state.error}</div>
+        }
+        if(!this.state.error && this.state.lat){
+           return <SeasonDisplay lat={this.state.lat} />
+        }
+        return <Spinner/>
+     }
+
      render(){
-         if(this.state.error && !this.state.lat){
-             return <div>{this.state.error}</div>
-         }
-         if(!this.state.error && this.state.lat){
-            return <SeasonDisplay lat={this.state.lat} />
-         }
-         return <div>Loading</div>
+         return(
+             <div className="border red">
+             {this.renderContent()}
+             </div>
+         )
      }
  }
 
